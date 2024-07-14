@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Product Form</title>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<h1 class="mt-5">Product</h1>
+		<br>
+		<a href="/products/new" class="btn btn-success">Create Product</a>
+		<br>
+		<table class="table table-striped mt-4">
+			<thead class="thead-dark">
+				<tr>
+					<th>ID</th>
+					<th>Code</th>
+					<th>Category</th>
+					<th>Brand</th>
+					<th>Type</th>
+					<th>Description</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="product : ${productPage.content}">
+					<td th:text="${product.id}">ID</td>
+					<td th:text="${product.code}">Code</td>
+					<td th:text="${product.category}">Category</td>
+					<td th:text="${product.brand}">Brand</td>
+					<td th:text="${product.type}">Type</td>
+					<td th:text="${product.description}">Description</td>
+					<td>
+						<a th:href="@{/products/edit/{productId}(productId=${product.id})}" class="btn btn-primary btn-sm">Edit</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<nav aria-label="Page navigation">
+			<ul class="pagination">
+				<li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+					<a class="page-link" th:href="@{/products(page=0, size=${productPage.size})}">First</a>
+				</li>
+				<li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+					<a class="page-link" th:href="@{/products(page=${currentPage - 1}, size=${productPage.size})}">Previous</a>
+				</li>
+				<li class="page-item active">
+					<span class="page-link" th:text="${currentPage + 1}">1</span>
+				</li>
+				<li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
+					<a class="page-link" th:href="@{/products(page=${currentPage + 1}, size=${productPage.size})}">Next</a>
+				</li>
+				<li class="page-item" th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
+					<a class="page-link" th:href="@{/products(page=${totalPages - 1}, size=${productPage.size})}">Last</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
