@@ -4,12 +4,46 @@
 	<meta charset="UTF-8">
 	<title>Edit Product</title>
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<script type="text/javascript">
+			function submitForm() {
+				let codeInput = document.getElementById("codeInput").value.trim();
+				let categoryInput = document.getElementById("categoryInput").value.trim();
+				let brandInput = document.getElementById("brandInput").value.trim();
+				let typeInput = document.getElementById("typeInput").value.trim();
+				let descriptionInput = document.getElementById("descriptionInput").value.trim();
+
+				if (codeInput.toLowerCase() === "null") {
+					codeInput = null;
+				}
+				if (categoryInput.toLowerCase() === "null") {
+					categoryInput = null;
+				}
+				if (brandInput.toLowerCase() === "null") {
+					brandInput = null;
+				}
+				if (typeInput.toLowerCase() === "null") {
+					typeInput = null;
+				}
+				if (descriptionInput.toLowerCase() === "null") {
+					descriptionInput = null;
+				}
+
+				document.getElementById("editProductForm").submit();
+			}
+		</script>
+		<script>
+			$(document).ready(function(){
+				$("form").on("submit", function(){
+					alert("Your request to update a new product is being submitted!");
+				});
+			});
+		</script>
 </head>
 <body>
 	<div class="container">
 		<h1 class="mt-5">Edit Product</h1>
-		
-		<form th:action="@{/products/edit/{productId}(productId=${product.id})}" th:object="${product}" method="post" class="mt-4">
+		<p><em>Input "null" for null value.</em></p>
+		<form id="editProductForm" th:action="@{/products/edit/{productId}(productId=${product.id})}" th:object="${product}" method="post" class="mt-4">
 			<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
 				<ul>
 					<li th:each="error : ${#fields.errors('*')}" th:text="${error}"></li>
@@ -17,31 +51,31 @@
 			</div>
 			<div class="form-group">
 				<label>Code:</label>
-				<input type="text" th:field="*{code}" class="form-control" readonly />
+				<input id="codeInput" type="text" th:field="*{code}" class="form-control" readonly />
 				<span th:if="${#fields.hasErrors('code')}" th:errors="*{code}" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label>Category:</label>
-				<input type="text" th:field="*{category}" class="form-control" />
+				<input id="categoryInput" type="text" th:field="*{category}" class="form-control" />
 				<span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label>Brand:</label>
-				<input type="text" th:field="*{brand}" class="form-control" />
+				<input id="brandInput" type="text" th:field="*{brand}" class="form-control" />
 				<span th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label>Type:</label>
-				<input type="text" th:field="*{type}" class="form-control" />
+				<input id="typeInput" type="text" th:field="*{type}" class="form-control" />
 				<span th:if="${#fields.hasErrors('type')}" th:errors="*{type}" class="text-danger"></span>
 			</div>
 			<div class="form-group">
 				<label>Description:</label>
-				<textarea th:field="*{description}" class="form-control"></textarea>
+				<textarea id="descriptionInput" th:field="*{description}" class="form-control"></textarea>
 				<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
 			</div>
 			<div class="form-group">
-				<button type="submit" class="btn btn-primary">Save</button>
+				<button type="submit" class="btn btn-primary" onclick="submitForm()">Save</button>
 			</div>
 		</form>
 	</div>

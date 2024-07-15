@@ -56,7 +56,7 @@ public class ProductController {
 			productUpdateRequest.setId(productId);
 			return "edit-product";
 		}
-		productService.updateProduct(productId, productUpdateRequest);
+		productService.updateProduct(productId, productUpdateRequest.convertFromStringToNull());
 		return "redirect:/products";
 	}
 
@@ -81,8 +81,7 @@ public class ProductController {
 			model.addAttribute("product", product);
 			return "create-product";
 		}
-
-		productService.createProduct(product);
+		productService.createProduct(product.convertFromStringToNull());
 		return "redirect:/products";
 	}
 }

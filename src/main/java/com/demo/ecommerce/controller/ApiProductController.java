@@ -16,6 +16,7 @@ import com.demo.ecommerce.dto.request.ProductCreationRequest;
 import com.demo.ecommerce.dto.request.ProductUpdateRequest;
 import com.demo.ecommerce.dto.response.ApiResponse;
 import com.demo.ecommerce.dto.response.ProductResponse;
+import com.demo.ecommerce.enums.HttpStatusCode;
 import com.demo.ecommerce.service.ProductService;
 
 import lombok.AccessLevel;
@@ -35,6 +36,7 @@ public class ApiProductController {
 	ApiResponse<ProductResponse> createProduct(@RequestBody ProductCreationRequest request) {
 		return ApiResponse.
 				<ProductResponse>builder()
+				.code(HttpStatusCode.CREATED.getCode())
 				.result(productService.createProduct(request))
 				.build();
 	}
@@ -44,24 +46,37 @@ public class ApiProductController {
 		log.info("Get all products");
 		return ApiResponse
 				.<List<ProductResponse>>builder()
+				.code(HttpStatusCode.OK.getCode())
 				.result(productService.getProducts())
 				.build();
 	}
 
 	@GetMapping("/{productId}")
 	ApiResponse<ProductResponse> getProduct(@PathVariable("productId") String productId) {
-		return ApiResponse.<ProductResponse>builder().result(productService.getProduct(productId)).build();
+		return ApiResponse
+				.<ProductResponse>builder()
+				.code(HttpStatusCode.OK.getCode())
+				.result(productService.getProduct(productId))
+				.build();
 	}
 
 
 	@DeleteMapping("/{productId}")
 	ApiResponse<String> deleteProduct(@PathVariable String productId) {
 		productService.deleteProduct(productId);
-		return ApiResponse.<String>builder().result("Product has been deleted").build();
+		return ApiResponse
+				.<String>builder()
+				.code(HttpStatusCode.NO_CONTENT.getCode())
+				.result("Product has been deleted")
+				.build();
 	}
 
 	@PutMapping("/{productId}")
 	ApiResponse<ProductResponse> updateProduct(@PathVariable String productId, @RequestBody ProductUpdateRequest request) {
-		return ApiResponse.<ProductResponse>builder().result(productService.updateProduct(productId, request)).build();
+		return ApiResponse
+				.<ProductResponse>builder()
+				.code(HttpStatusCode.OK.getCode())
+				.result(productService.updateProduct(productId, request))
+				.build();
 	}
 }

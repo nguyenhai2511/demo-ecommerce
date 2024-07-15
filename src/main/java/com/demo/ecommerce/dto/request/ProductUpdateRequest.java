@@ -25,4 +25,18 @@ public class ProductUpdateRequest {
 	String type;
 	@NotEmpty(message = "Description is required. This field must not be empty")
 	String description;
+
+	public ProductUpdateRequest convertFromStringToNull() {
+		if (this.code.equalsIgnoreCase("null"))
+			this.code = null;
+		if (this.category.equalsIgnoreCase("null"))
+			this.category = null;
+		if (this.brand.equalsIgnoreCase("null"))
+			this.brand = null;
+		if (this.type.equalsIgnoreCase("null"))
+			this.type = null;
+		if (this.description.equalsIgnoreCase("null"))
+			this.description = null;
+		return this;
+	}
 }

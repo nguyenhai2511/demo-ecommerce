@@ -28,12 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService {
 	ProductRepository productRepository;
 	Environment environment;
-//	@Autowired
-//	ProductMapper productMapper;
-//	
 
 	public ProductResponse createProduct(ProductCreationRequest request) {
-//		Product product = productMapper.toProduct(request);
 		Product product = new Product();
 		product.setCode(request.getCode());
 		product.setBrand(request.getBrand());
@@ -45,25 +41,21 @@ public class ProductService {
 		} catch (DataIntegrityViolationException exception) {
 			throw new AppException(ErrorCode.PRODUCT_EXISTED);
 		}
-		ProductResponse productResponse = new ProductResponse(product);
-		return productResponse;
+		return new ProductResponse(product);
 	}
 
 	public ProductResponse updateProduct(String productId, ProductUpdateRequest request) {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new AppException(ErrorCode.PRODUCT_EXISTED));
 
-//		productMapper.updateUser(product, request);
 		product.setCode(request.getCode());
 		product.setBrand(request.getBrand());
 		product.setCategory(request.getCategory());
-		product.setDescription(request.getType());
+		product.setType(request.getType());
 		product.setDescription(request.getDescription());
 		productRepository.save(product);
 
-//		return productMapper.toProductResponse();
-		ProductResponse productResponse = new ProductResponse(product);
-		return productResponse;
+		return new ProductResponse(product);
 	}
 
 	public List<ProductResponse> getProducts() {
